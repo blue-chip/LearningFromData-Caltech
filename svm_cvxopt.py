@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
 """
-    This script creates a support vector machine (SVM) implementation in Python
-    using the CVXOPT module. This module computes the quadratic optimization 
-    needed to find the support vectors. The domain is restricted to two 
-    dimensions ranging from -1 to 1. The visualizations are done with the 
-    Seaborn module. 
+This script creates a support vector machine (SVM) implementation in Python
+using the CVXOPT module. This module computes the quadratic optimization
+needed to find the support vectors. The domain is restricted to two
+dimensions ranging from -1 to 1. The visualizations are done with the
+Seaborn module.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 import cvxopt
-import seaborn as sns
+import seaborn
 
 # Generating two points to construct the line
 x1_targetf = np.random.uniform(-1, 1, 2)
@@ -47,7 +47,8 @@ for index, each in enumerate(x1_input):
     # Computing the value of x2 if it was on the line
     x2_line = m*(each) + b_target
 
-    # Checking the value of x2 corresponding to that x1 with the x2 from the line
+    # Checking the value of x2 corresponding to that x1 with the x2 from the
+    # target function
     # Assigning a -1 or +1 class to it
     if x2_input[index] < x2_line:
         y_output.append(-1.0)
