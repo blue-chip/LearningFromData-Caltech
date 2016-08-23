@@ -1,17 +1,23 @@
+#!/usr/bin/env python
+
+"""
+    This script 
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cvxopt
 import seaborn as sns
 
 # Generating two points to construct the line
-x1_targetf = np.random.uniform(-1,1,2)
-x2_targetf = np.random.uniform(-1,1,2)
+x1_targetf = np.random.uniform(-1, 1, 2)
+x2_targetf = np.random.uniform(-1, 1, 2)
 
 # Computing the slope m and the y-intercept b
 m = (x2_targetf[1]-x2_targetf[0])/(x1_targetf[1]-x1_targetf[0])
 b_target = x2_targetf[0] - m * x1_targetf[0]
 
-# Computing the x2 value of the extremities of the line knowing that the x1 
+# Computing the x2 value of the extremities of the line knowing that the x1
 # values range is [-1, 1]
 x2_lefttargetf = m*(-1) + b_target
 x2_righttargetf = m*(1) + b_target
@@ -19,16 +25,16 @@ x2_righttargetf = m*(1) + b_target
 # Plot of target function
 fig1 = plt.figure()
 ax1 = fig1.add_subplot(111)
-plt.plot([-1,1], [x2_lefttargetf,x2_righttargetf])
-plt.axis((-1,1,-1,1))
+plt.plot([-1, 1], [x2_lefttargetf, x2_righttargetf])
+plt.axis((-1, 1, -1, 1))
 plt.ion()
 plt.show()
 plt.pause(0.001)
 
 # Generating N training data points
 N = 20
-x1_input = np.random.uniform(-1,1,N)
-x2_input = np.random.uniform(-1,1,N)
+x1_input = np.random.uniform(-1, 1, N)
+x2_input = np.random.uniform(-1, 1, N)
 
 y_output = []
 
@@ -50,8 +56,8 @@ plt.scatter(
     x2_input,
     c=y_output,
     cmap='bwr',
-    alpha=1, 
-    s=100, 
+    alpha=1,
+    s=100,
     edgecolors='k'
     )
 
@@ -64,8 +70,8 @@ X_svm = np.column_stack((
 y_output = np.array(y_output)
 # Initializing the N x N Gram matrix
 K = np.zeros(
-    shape = (
-        len(x1_input), 
+    shape=(
+        len(x1_input),
         len(x1_input)
         )
     )
@@ -73,7 +79,7 @@ K = np.zeros(
 # Computing the inner products for each pair of vectors
 for i in range(len(x1_input)):
     for j in range(len(x1_input)):
-        K[i,j] = np.dot(X_svm[i], X_svm[j])
+        K[i, j] = np.dot(X_svm[i], X_svm[j])
 
 # Generating all the matrices and vectors
 P = cvxopt.matrix(np.outer(y_output, y_output) * K)
@@ -85,8 +91,8 @@ G = cvxopt.matrix(np.vstack([
 h = cvxopt.matrix(np.hstack([
     np.zeros(len(x1_input)),
     np.ones(len(x1_input)) * 999999999.0
-    ])) 
-A = cvxopt.matrix(y_output, (1,len(x1_input)))
+    ]))
+A = cvxopt.matrix(y_output, (1, len(x1_input)))
 b = cvxopt.matrix(0.0)
 
 # Solving the QP problem
@@ -107,10 +113,10 @@ sv_y = y_output[ssv]
 
 # Plotting the support vectors
 plt.scatter(
-    sv[:,0],
-    sv[:,1],
+    sv[:, 0],
+    sv[:, 1],
     facecolors='none',
-    s=400, 
+    s=400,
     edgecolors='k'
     )
 
@@ -129,4 +135,4 @@ print 'b_svm:', b_svm
 x2_lefttargeth = -(w_svm[0]*(-1)+b_svm)/w_svm[1]
 x2_righttargeth = -(w_svm[0]*(1)+b_svm)/w_svm[1]
 
-ax1.plot([-1,1], [x2_lefttargeth,x2_righttargeth])
+ax1.plot([-1, 1], [x2_lefttargeth, x2_righttargeth])
