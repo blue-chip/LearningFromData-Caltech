@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 """
-    This script 
+    This script creates a support vector machine (SVM) implementation in Python
+    using the CVXOPT module. This module computes the quadratic optimization 
+    needed to find the support vectors. The domain is restricted to two 
+    dimensions ranging from -1 to 1. The visualizations are done with the 
+    Seaborn module. 
 """
 
 import numpy as np
