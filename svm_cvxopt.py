@@ -8,32 +8,49 @@ dimensions ranging from -1 to 1. The visualizations are done with the
 Seaborn module.
 """
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cvxopt
 import seaborn
 
-# Generating two points to construct the line
-x1_targetf = np.random.uniform(-1, 1, 2)
-x2_targetf = np.random.uniform(-1, 1, 2)
 
-# Computing the slope m and the y-intercept b
-m = (x2_targetf[1]-x2_targetf[0])/(x1_targetf[1]-x1_targetf[0])
-b_target = x2_targetf[0] - m * x1_targetf[0]
+# Creates the target function
 
-# Computing the x2 value of the extremities of the line knowing that the x1
-# values range is [-1, 1]
-x2_lefttargetf = m*(-1) + b_target
-x2_righttargetf = m*(1) + b_target
+data_range = [-1, 1]  # Data domain is a square with this range for each side
 
-# Plot of target function
+pt1_targetf = np.random.uniform(
+    data_range[0],
+    data_range[1],
+    2)
+pt2_targetf = np.random.uniform(
+    data_range[0],
+    data_range[1],
+    2)
+
+slope = (pt2_targetf[1]-pt1_targetf[1])/(pt2_targetf[0]-pt1_targetf[0])
+y_intercept = pt1_targetf[1] - slope * pt1_targetf[0]
+
+leftmostpt_targetf = [data_range[0], slope*(data_range[0])+y_intercept]
+rightmostpt_targetf = [data_range[1], slope*(data_range[0])+y_intercept]
+
+
+# Plots the target function
+
 fig1 = plt.figure()
 ax1 = fig1.add_subplot(111)
-plt.plot([-1, 1], [x2_lefttargetf, x2_righttargetf])
-plt.axis((-1, 1, -1, 1))
+plt.plot(
+    [leftmostpt_targetf[0], rightmostpt_targetf[0]],
+    [leftmostpt_targetf[1], rightmostpt_targetf[1]])
+plt.axis((
+    data_range[0],
+    data_range[1],
+    data_range[0],
+    data_range[1]))
 plt.ion()
 plt.show()
 plt.pause(0.001)
+
 
 # Generating N training data points
 N = 20
@@ -45,7 +62,7 @@ y_output = []
 # Computing the y_output (class or category) from the target function
 for index, each in enumerate(x1_input):
     # Computing the value of x2 if it was on the line
-    x2_line = m*(each) + b_target
+    x2_line = m*(each) + y_intercept
 
     # Checking the value of x2 corresponding to that x1 with the x2 from the
     # target function
