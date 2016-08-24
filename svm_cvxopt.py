@@ -28,13 +28,13 @@ pt2_targetf = np.random.uniform(
     data_range[1],
     2)
 
-slope = ((pt2_targetf[1]-pt1_targetf[1])
+slope = ((pt2_targetf[1] - pt1_targetf[1])
          /
-         (pt2_targetf[0]-pt1_targetf[0]))
+         (pt2_targetf[0] - pt1_targetf[0]))
 y_intercept = pt1_targetf[1] - slope * pt1_targetf[0]
 
-leftmostpt_targetf = [data_range[0], slope*(data_range[0])+y_intercept]
-rightmostpt_targetf = [data_range[1], slope*(data_range[1])+y_intercept]
+leftmostpt_targetf = [data_range[0], slope * (data_range[0]) + y_intercept]
+rightmostpt_targetf = [data_range[1], slope * (data_range[1]) + y_intercept]
 
 
 # Plots the target function
@@ -69,17 +69,14 @@ y_values = np.random.uniform(
 
 labels = []
 
-
-# Computing the labels (class or category) from the target function
 for index, each in enumerate(x_values):
-    y_value = slope*(each) + y_intercept
+    y_value_targetf = slope*(each) + y_intercept
 
-    if y_values[index] < y_value:
+    if y_values[index] < y_value_targetf:
         labels.append(-1.0)
     else:
         labels.append(1.0)
 
-# Plotting the training points
 plt.scatter(
     x_values,
     y_values,
@@ -87,8 +84,7 @@ plt.scatter(
     cmap='bwr',
     alpha=1,
     s=100,
-    edgecolors='k'
-    )
+    edgecolors='k')
 
 # Combining the data vectors into an X matrix of N vectors of features
 X_svm = np.column_stack((
