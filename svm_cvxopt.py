@@ -69,15 +69,12 @@ y_values = np.random.uniform(
 
 labels = []
 
+
 # Computing the labels (class or category) from the target function
 for index, each in enumerate(x_values):
-    # Computing the value of x2 if it was on the line
-    x2_line = m*(each) + y_intercept
+    y_value = slope*(each) + y_intercept
 
-    # Checking the value of x2 corresponding to that x1 with the x2 from the
-    # target function
-    # Assigning a -1 or +1 class to it
-    if y_values[index] < x2_line:
+    if y_values[index] < y_value:
         labels.append(-1.0)
     else:
         labels.append(1.0)
